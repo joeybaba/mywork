@@ -152,4 +152,9 @@ n为保留n位小数
 >>> re_telephone.match('010-12345').groups()
 ('010', '12345')
 
+__未同步
+# pip-review包使用问题 -换为_
+python3 -m pip_review --local --interactive
+#pip包本地安装方法 python3 setup.py install
+
 
