@@ -5,7 +5,7 @@
 import jieba
 import wordcloud
 import imageio
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 
 # 输出词云图片
