@@ -5,6 +5,7 @@
 import jieba
 import wordcloud
 import imageio
+import openpyxl
 # import matplotlib.pyplot as plt
 
 
@@ -47,11 +48,28 @@ def jiebaanalysis():
 
     countlist = list(countdict.items())
     countlist.sort(key=lambda x: x[1], reverse=True)
-    print(type(countlist))
-    with open('countlist.txt', 'w', encoding='utf-8') as f:
-        f.write('词组 ' + ' 频率\n')
-        for i in countlist:
-            f.write(str(i) + '\n')
+    # # 直接转化写入，不使用其他模块
+    # with open('countlist.txt', 'w', encoding='utf-8') as f:
+    #     f.write('词组 ' + ' 频率\n')
+    #     for i in countlist:
+    #         f.write(str(i) + '\n')
+
+    # 写入xls,不使用其他模块
+    # with open('countlist.xls', 'w', encoding='utf-8',) as f:
+    #     f.write('词组\t频率\t\n')
+    #     for i in range(len(countlist)):
+    #         for j in countlist[i]:
+    #             f.write(str(j))
+    #             f.write('\t')
+    #         f.write('\n')
+
+    # 依赖openpyxl
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    for i in range(len(countlist)):
+        # for j in countlist[i]:
+        ws.append(countlist[i])
+    wb.save('countlist_xl.xlsx')
 
     newstr = ' '.join(newlist)
     return newstr
