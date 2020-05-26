@@ -6,6 +6,9 @@ import jieba
 import wordcloud
 import imageio
 import openpyxl
+import collections
+
+
 # import matplotlib.pyplot as plt
 
 
@@ -45,6 +48,12 @@ def jiebaanalysis():
     countdict = {}
     for i in newlist:
         countdict[i] = countdict.get(i, 1) + 1
+
+    # 计数，依赖collections
+    # c = collections.Counter()
+    # for ch in newlist:
+    #     c[ch] = c[ch] + 1
+    # print(c)
 
     countlist = list(countdict.items())
     countlist.sort(key=lambda x: x[1], reverse=True)
