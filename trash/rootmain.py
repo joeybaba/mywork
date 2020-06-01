@@ -39,13 +39,13 @@ class RootMain(object):
 
     def __createtext(self):  # 创建存储功能函数的text
         try:
-            with open('../rootmain.txt', 'r') as f:
+            with open('../rootmain/rootmain.txt', 'r') as f:
                 pass
         except Exception as e:
             print(e)
             print('first open file,now can we create the rootmain text file? (y/n)')
             if str(input()) == 'y':
-                with open('../rootmain.txt', 'w') as f:
+                with open('../rootmain/rootmain.txt', 'w') as f:
                     f.write('%s%s' % (self.importfunc.__name__, '\r\n'))
                     print('create success')
                     f.close()
@@ -53,7 +53,7 @@ class RootMain(object):
                 print('ok,bye')
 
         try:
-            with open('../rootmain.txt', 'a+') as f:
+            with open('../rootmain/rootmain.txt', 'a+') as f:
                 f.seek(0)
                 if str(self.importfunc.__name__) not in f.read():
                     f.write('%s%s' % (self.importfunc.__name__, '\r\n'))
@@ -63,7 +63,7 @@ class RootMain(object):
 
     def funclist(self):
         try:
-            with open('../rootmain.txt', 'r') as f:
+            with open('../rootmain/rootmain.txt', 'r') as f:
                 print('now,we have these function:')
                 print(f.read())
         except IOError:

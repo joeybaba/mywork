@@ -1,5 +1,0 @@
-mm
-decorate
-usermanager
-usermanagertest
-tempcode

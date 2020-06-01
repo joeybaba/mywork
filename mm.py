@@ -1,5 +1,7 @@
-# def test(a):
-#     print(a)
+#!/usr/bin/env python
+# coding:utf-8
+
+"""测试函数"""
 
 
 class MM(object):
