@@ -17,7 +17,7 @@ Python代码库
 - usefulcode : 有用的代码收集
 - usermanager : 小应用，用户登录管理
 - wordcloud : 词云分析
-
+- timeseries : 时间序列分析
 
 
 
