@@ -4,10 +4,9 @@ import pandas as pd
 import numpy as np
 import re
 import warnings
-
+import os as bb
 warnings.filterwarnings("ignore")  # 过滤警告
 # del warnings
-
 
 
 regex = re.compile(r".{2}(区|县)")  # 准备正则表达式
