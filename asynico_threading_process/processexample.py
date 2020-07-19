@@ -1,10 +1,8 @@
 # coding:UTF-8
-
 """线程的使用"""
 import os
 import time
 import multiprocessing
-
 
 # 单进程和多进程比较
 def compare():
@@ -13,6 +11,7 @@ def compare():
             start = time.perf_counter()
             func(*args, **kwargs)
             print(f'cost: {(time.perf_counter() - start)}')
+
         return wrapper
 
     # 斐波那契数列
@@ -28,24 +27,29 @@ def compare():
 
     @profile
     def nomultiprocessing():
-        fibfunc(10)
-        fibfunc(10)
+        for i in range(10):
+            fibfunc(10)
+            fibfunc(10)
+            fibfunc(10)
+            fibfunc(10)
+            fibfunc(10)
+            fibfunc(10)
 
     @profile
     def hasmultiprocessing():
-        for i in range(2):
+        for i in range(10):
             p = multiprocessing.Process(target=fibfunc, args=(10, ))
             # t = threading.Thread(target=fibfunc, args=(10,))
             p.start()
 
-        main_threading = multiprocessing.current_process()
+        # main_threading = multiprocessing.current_process()
         child = multiprocessing.active_children()
 
         for i in child:
             i.join()  # 阻塞，等待两条子进程同步
 
-    nomultiprocessing()
     hasmultiprocessing()
+    nomultiprocessing()
 
 
 # 进程池pool
@@ -55,6 +59,7 @@ def fibfuncs(x):
         if x == 2 or x == 1:
             return 1
         return fib(x - 1) + fib(x - 2)
+
     for i in range(1, x):
         print(fib(i), end=',')
     print('\n')
@@ -68,9 +73,8 @@ def fibfuncs(x):
 
 # 进程中通讯 Queue
 def addqueue():
-
     def writer(q):
-        for i in [1,2,3]:
+        for i in [1, 2, 3]:
             q.put(i)
 
     def read(q):
@@ -92,8 +96,8 @@ def addqueue():
     m = multiprocessing.Manager()
     q = m.Queue()
     pool = multiprocessing.Pool(4)
-    pool.apply_async(writer, args=(q,))
-    pool.apply_async(read, args=(q,))
+    pool.apply_async(writer, args=(q, ))
+    pool.apply_async(read, args=(q, ))
     pool.close()
     pool.join()
 
@@ -102,9 +106,8 @@ def addqueue():
     # 函数里面是子进程。。。main()里是主进程
 
 
-
 if __name__ == '__main__':
-    # compare()
+    compare()
 
     # # addpool()  # AttributeError: Can't pickle local object 'addpool.<locals>.fib'
     # # pickle是用来序列化对象很方便的工具，但是pickle对传入对象的要求是不能是内部类，也不能是lambda函数
@@ -118,7 +121,4 @@ if __name__ == '__main__':
     #     pool.close()
     #     pool.join()
     # runpool()
-
-    addqueue()
-
-
+    # addqueue()

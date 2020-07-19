@@ -1,13 +1,12 @@
 # coding:UTF-8
-
 """线程的使用"""
 
-import time
-import threading
-from threading import Semaphore, Lock, Event
-import random
 import logging
+import random
+import threading
+import time
 from queue import Queue
+from threading import Event, Lock, Semaphore
 
 
 # 单线程和多线程比较
@@ -25,7 +24,7 @@ def compare():
         def fib(x):
             if x == 2 or x == 1:
                 return 1
-            return fib(x - 1) + fib(x - 2)
+            return fib(x - 1) + fib(x - 2)  # x迭代到3即停止
 
         for i in range(1, x):
             # fib(i)
@@ -40,7 +39,7 @@ def compare():
     @profile
     def hasthread():
         for i in range(2):
-            t = threading.Thread(target=fibfunc, args=(10,))
+            t = threading.Thread(target=fibfunc, args=(10, ))
             t.start()
 
         main_threading = threading.currentThread()
@@ -58,6 +57,7 @@ def compare():
 def addsemaphore():
     sema = Semaphore(3)
 
+    # 方法1
     def foo(tid):
         sema.acquire()
         print('get:', tid)
@@ -65,6 +65,7 @@ def addsemaphore():
         print('release:', tid)
         sema.release()
 
+    # 方法2
     def foo1(tid):
         with sema:
             print('get:', tid)
@@ -74,7 +75,7 @@ def addsemaphore():
     thread = []
 
     for i in range(1, 6):
-        t = threading.Thread(target=foo, args=(i,))
+        t = threading.Thread(target=foo, args=(i, ))
         thread.append(t)
         t.start()
 
@@ -98,12 +99,14 @@ def addlock():
     def foo1():
         nonlocal value
         with lock:
-            value = value - 1
+            value = value - 10
+            time.sleep(0.0001)
+            value = value + 8
 
     thread = []
 
     for i in range(1, 10):
-        t = threading.Thread(target=foo)
+        t = threading.Thread(target=foo1)
         thread.append(t)
         t.start()
 
@@ -128,9 +131,9 @@ def addcondition():
             print('i in notify')
 
     condition = threading.Condition()
-    p = threading.Thread(target=producer, args=(condition,))
-    c = threading.Thread(target=consumer, args=(condition,))
-
+    
+    c = threading.Thread(target=consumer, args=(condition, ))
+    p = threading.Thread(target=producer, args=(condition, ))
     c.start()
     time.sleep(1)
     p.start()
@@ -180,7 +183,7 @@ def addevent():
 # 最常用的地方就是为每个线程绑定一个数据库连接，HTTP请求，用户身份信息等,这样一个线程的所有调用到的处理函数都可以非常方便地访问这些资源
 def threadlocal():
     local_value = threading.local()
-
+    # 传递name参数
     def consumer():
         print(local_value.name)
 
@@ -191,7 +194,7 @@ def threadlocal():
 
     threadlist = []
     for i in range(3):
-        t = threading.Thread(target=producer, args=[i, ])
+        t = threading.Thread(target=producer, args=[i,])
         t.start()
         threadlist.append(t)
 
@@ -205,3 +208,4 @@ if __name__ == '__main__':
     # addcondition()
     # addevent()
     threadlocal()
+    # compare()

@@ -239,6 +239,56 @@ Hello = type('Hello', (object,), dicts)  # 传入字典，不是关键字参数
 a = Hello('b')
 a.hello('name')
 
-# TODO
 
-__未同步
+
+# 线程未加锁导致全局变量数据差异
+import threading
+import time
+
+y = 0
+
+def counter(count):
+    global y
+    for i in range(1000000):
+
+        y = y + count
+        y = y - count
+
+def parent():
+    threads = threading.Thread(target=counter, args=(5,))
+    threadss = threading.Thread(target=counter, args=(8,))
+    threads.start()
+    threadss.start()
+    threads.join()
+    threadss.join()
+    print('counter1', y)
+    
+parent()
+
+
+# 查找出现最多的数字
+List = [3,2,3]
+class Solution(object):
+    def majorityElement(self, nums: List) -> int:
+        while True:
+            temp = []
+            for i in range(len(nums) // 2):
+                if nums[i] == nums[-i - 1]:
+                    temp.extend([nums[i],nums[-i - 1]])
+            sorted(temp)
+            nums = temp
+            if len(set(nums)) == 1:
+                break
+        return nums[0]
+
+test = Solution()
+a = test.majorityElement(nums=List)
+print(a)
+
+# 双变量赋值语句
+# last, now = now, max(last + i, now)
+temp = last
+last = now
+now = max(temp + i, now)
+
+# TODO __未同步

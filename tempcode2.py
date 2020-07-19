@@ -1,30 +1,41 @@
-'''
-@Author: your name
-@Date: 2020-04-30 18:15:53
-@LastEditTime: 2020-06-24 11:09:36
-@LastEditors: Please set LastEditors
-@Description: In User Settings Edit
-@FilePath: /mywork/tempcode2.py
-'''
-from scipy.special import gamma
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
+from math import ceil
+# List = [1, 2, 23, 12424, 3, 3, 344, 3, 56, 7, 87, 8, 9,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,5,6,10]
 
-np.random.seed()
 
-# 伽马函数
-# *din
-# !da
-# TODO:daif
-# ?da
-x = np.linspace(0, 10, 20)
-y = gamma(x)
-# sns.pointplot(x,y)
-sns.lineplot(x, y)
-# plt.plot(x,y)
-df = np.random.normal()
-df = np.radom.normal()
-for i in range(11):
-    try:
-        
+# class Solution(object):
+#     def majorityElement(self, nums: List) -> int:
+#         print(len(nums))
+#         new_list = []
+#         while True:
+#             for i in range(len(nums) // 2):
+#                 if nums[i] != nums[-i-1]:
+#                     new_list.append(i)
+#                     new_list.append(-i-1)
+#             print(new_list)
+#             temp=[]
+#             for j in new_list:
+#                 temp.append(nums[j])
+#             for k in temp:
+#                 nums.remove(k)
+#             new_list=[]
+#             print('nums:',nums)
+#             if len(set(nums)) == 1:
+#                 return nums[0]
+
+List = [3,2,3]
+class Solution(object):
+    def majorityElement(self, nums: List) -> int:
+        while True:
+            temp = []
+            for i in range(len(nums) // 2):
+                if nums[i] == nums[-i - 1]:
+                    temp.extend([nums[i],nums[-i - 1]])
+            sorted(temp)
+            nums = temp
+            if len(set(nums)) == 1:
+                break
+        return nums[0]
+
+test = Solution()
+a = test.majorityElement(nums=List)
+print(a)
