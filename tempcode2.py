@@ -1,41 +1,40 @@
-from math import ceil
-# List = [1, 2, 23, 12424, 3, 3, 344, 3, 56, 7, 87, 8, 9,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,5,6,10]
+class Test:
+    name = 'Testhahahaha'
+
+    # self:描述符对象n, instance:实例t1, owner:t1所属的类Test1
+    def __get__(self, instance, owner):
+        print('====>get')
+        print(self, instance, owner, sep='\n')
+        return self
+
+    def __set__(self, instance, value):  # value:值3
+        print('====>set')
+        print(self.name, instance, value, sep='\n')
+        instance.__dict__['n'] = value
+
+    def __delete__(self, instance):
+        print('====>delete')
+        print(self, instance)
 
 
-# class Solution(object):
-#     def majorityElement(self, nums: List) -> int:
-#         print(len(nums))
-#         new_list = []
-#         while True:
-#             for i in range(len(nums) // 2):
-#                 if nums[i] != nums[-i-1]:
-#                     new_list.append(i)
-#                     new_list.append(-i-1)
-#             print(new_list)
-#             temp=[]
-#             for j in new_list:
-#                 temp.append(nums[j])
-#             for k in temp:
-#                 nums.remove(k)
-#             new_list=[]
-#             print('nums:',nums)
-#             if len(set(nums)) == 1:
-#                 return nums[0]
+class Test1:
+    n = Test()
+    def __init__(self, name):
+        self.name = name
 
-List = [3,2,3]
-class Solution(object):
-    def majorityElement(self, nums: List) -> int:
-        while True:
-            temp = []
-            for i in range(len(nums) // 2):
-                if nums[i] == nums[-i - 1]:
-                    temp.extend([nums[i],nums[-i - 1]])
-            sorted(temp)
-            nums = temp
-            if len(set(nums)) == 1:
-                break
-        return nums[0]
+nn = Test1('a')
+nn.n = 1
+nn.n
 
-test = Solution()
-a = test.majorityElement(nums=List)
-print(a)
+# Test1.n  # 类调用属性会触发__get__
+# print('=====>hahaha')
+# t1 = Test1('sabi')  # 不涉及属性n时不会触发描述符
+# t1.n = 3  # 触发__set__, 增加属性n,但类属性不变
+# print(t1.__dict__)
+# print(t1.n)  # 触发__get__
+# del t1.n  # 触发__delete__
+# print('=====分隔')
+# del Test1.n  # 类删除属性也不会触发__delete__
+
+
+
