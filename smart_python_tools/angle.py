@@ -112,8 +112,15 @@ class Angle(Entity):
             d += 1.0
         return Angle(d, m, s)
 
-    def __reduce__(self, other):
-        pass
+    def __sub__(self, other):
+        if other.second > self.second:
+            self.second += 60
+            self.minute -= 1.0
+        if other.minute > self.minute:
+            self.minute += 60
+            self.degree -= 1.0
+
+
 
 
 
