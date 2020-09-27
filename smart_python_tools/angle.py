@@ -26,7 +26,7 @@ class AutoStorage:
         setattr(instance, self.storage_name, value)
 
     def __get__(self, instance, owner):  # self:<__main__.Unit object at 0x7febf31431d0>
-        print(111)
+        print("__get__")
         return getattr(instance, self.storage_name) if instance else self
 
 
@@ -112,7 +112,7 @@ class Angle(Entity):
             d += 1.0
         return Angle(d, m, s)
 
-    def __sub__(self, other):
+    def __sub__(self, other):   # 减法不够减，借位
         if other.second > self.second:
             self.second += 60
             self.minute -= 1.0
@@ -120,21 +120,33 @@ class Angle(Entity):
             self.minute += 60
             self.degree -= 1.0
 
+        d = self.degree - other.degree
+        m = self.minute - other.minute
+        s = self.second - other.second
+        return Angle(d, m, s)
+
+    def __mul__(self, scalar: float):
+        d = self.degree * scalar
+        m = self.minute * scalar
+        s = self.second * scalar
+        if s > 60.0:
+            s -= 60.0
+            m += 1.0
+        if m > 60.0:
+            m -= 60.0
+            d += 1.0
+        return Angle(d, m, s)
+
+    def __truediv__(self, scalar: float):
+        d, remainder = divmod(self.degree, scalar)
+        self.minute += remainder * 60
+        m, remainder = divmod(self.minute, scalar)
+        self.second += remainder * 60
+        s = self.second / scalar
+        return Angle(d, m, s)
 
 
-
-
-
-
-
-
-
-
-
-a = Angle(10,0,0)
-print(a.to_degree())
-# print(a.to_second())
-
-
-
+a = Angle(30, 20, 10)
+b = Angle(60, 50, 40)
+print(a / 1.0)
 
